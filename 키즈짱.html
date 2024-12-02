@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쥬니버 네이어</title>
+    <style>
+
+        /*이미지랑 버튼 등등 스타일 설정*/
+         #image, #newGif {
+            display: none;
+            position: fixed;      
+            top: 0;               
+            left: 0;              
+            width: 100vw;         
+            height: 100vh;        
+            object-fit: cover;    
+            z-index: 9999;        
+        }
+        body {
+            margin: 0;            
+            overflow: hidden;     
+        }
+
+        #newGif {
+            display: none;  /* 처음엔 숨김 */
+        }
+        body {
+            margin: 0;            
+            overflow: hidden;     
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        #login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('짱구1.jpg'); /* 배경 이미지 경로 */
+            background-size: cover; /* 이미지를 화면 크기에 맞게 조정 */
+            background-position: center; /* 이미지를 중앙에 위치 */
+            background-repeat: no-repeat; /* 이미지를 반복하지 않음 */
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9); /* 배경을 반투명으로 설정 */
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        #main-content {
+            display: none;
+        }
+        header {
+            background-color: #F2F5A9;
+            color: black;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #F5F6CE;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav a {
+            color: #585858;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        #site-info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #game-list {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #game-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #game-list li {
+            margin: 10px 0;
+        }
+        #game-list a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        #game-list a:hover {
+            text-decoration: underline;
+        }
+        #site-info, #game-list, #customer-center{
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #customer-center textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #customer-center button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #site-info, #game-list,#customer-center, #community {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #community input, #community textarea {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        #community button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #community ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #community li {
+            margin: 10px 0;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .post-title {
+            font-weight: bold;
+        }
+        .post-meta {
+            font-size: 0.9em;
+            color: gray;
+            margin-bottom: 5px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto;  /* 자동으로 스크롤 추가 */
+        }
+        #Video {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        #Video a {
+            margin-right: 20px; /* 각 이미지 사이에 20px 간격 추가 */
+            }
+
+        #Video a:last-child {
+            margin-right: 0; /* 마지막 이미지에는 오른쪽 마진을 제거 */
+            }   
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto;  /* 자동으로 스크롤 추가 */
+        }
+    </style>
+</head>
+<body>
+    <div id="login-screen"> <!--로그인창 아이디 생성-->
+        <div class="login-container"> <!--스타일 지정-->
+            <h2>로그인</h2>
+            <form onsubmit="handleLogin(event)">
+                <input type="text" placeholder="아이디" required> <!--아이디 입력칸 생성-->
+                <input type="password" placeholder="비밀번호" required> <!--비밀번호 입력칸 생성-->
+                <button type="submit">로그인</button> <!--로그인 버튼 생성-->
+            </form>
+        </div>
+    </div>
+    <div id="main-content"> <!--메인 화면 아이디 생성-->
+        <header>
+            <h1>👧쥬니버 네이어👦</h1> <!--메인 화면-->
+        </header>
+        <nav>
+            <!--서브화면 나열-->
+            <a href="javascript:void(0);" onclick="showSiteInfo()">사이트 소개</a>
+            <a href="javascript:void(0);" onclick="showGameList()">게임</a>
+            <a href="javascript:void(0);" onclick="showVideo()">지니키즈</a>
+            <a href="javascript:void(0);" onclick="showCustomerCenter()">고객센터</a>
+            <a href="javascript:void(0);" onclick="showCommunity()">커뮤니티</a>
+        </nav>
+        <main>
+            <div id="site-info"> <!--사이트 소개 아이디 생성-->
+                <!--인사말-->
+                <h2>사이트 소개</h2>
+                <p><h1>🎈어린이 여러분 쥬니버 네이어 오신것을 환영합니다.🎈</h1>
+                    저희 쥬니버 네이어는 쥬니어 네이버와 더불어 대표적인 어린이 포털 사이트 입니다.<br>
+                    저희 쥬니버 네이어에서 할 수 있는 대표적인 활동으로는<br>
+                    1. 푸근이 동생을 찾아 떠나는 모험 이야기 지니키즈 <br>
+                    2. 짱구와 함께 놀 수 있는 게임랜드<br>
+                    3. 다양한 사람과 소통 할 수 있는 커뮤니티<br>
+                    4. 불편한점을 문의 할수있는 고객센터
+                    등이 있습니다.<br>
+                    저희 쥬니버 네이어는 어린이 친구들을 위해 항상 최고의 서비스를 제공하고있습니다.</p>
+            </div>
+
+            <div id="game-list"> <!--게임 화면 아이디 생성-->
+                <h2>짱구교실 게임 목록</h2> <!--서브 화면 이름-->
+                <ul>
+                    <!--게임 사이트 정렬-->
+                    <li><a href="https://vidkidz.tistory.com/10737" target="_blank">1. 범인이 어떻게 생겼었지</a></li>
+                    <li><a href="https://vidkidz.tistory.com/746" target="_blank">2. 소방관이 된 짱구</a></li>
+                    <li><a href="https://vidkidz.tistory.com/518" target="_blank">3. 범인을 찾아라</a></li>
+                    <li><a href="https://vidkidz.tistory.com/522" target="_blank">4. 공룡 몰래 하자</a></li>
+                    <h2>그 외 게임</h2>
+                    <li><a href="https://vidkidz.tistory.com/9844" target="_blank">물불게임</a></li>
+                    <li><a href="https://flashgamemall.tistory.com/2443" target="_blank">아빠와 나</a></li>
+                    <li><a href="https://vidkidz.tistory.com/85" target="_blank">고군분투</a></li>
+                </ul>
+            </div>
+            <div id="customer-center"> <!--고객 센터 아이디 생성-->
+                <h2>고객센터</h2> <!--서브 화면 이름-->
+                <p>문의사항이 있으시면 아래에 내용을 작성해 주세요.</p> <!--설명글-->
+                <textarea placeholder="여기에 작성해 주세요..."></textarea> <!--설명글-->
+                <button onclick="submitInquiry()">문의 제출</button> <!--버튼 생성-->
+                <p id="submission-confirmation" style="display: none; color: green; margin-top: 10px;">문의가 성공적으로 제출되었습니다!</p> <!--문자 숨겼다가 상호작용시 출력-->
+            </div>
+
+
+            <!--영상 업로드-->
+            <div id="Video"> <!--지니키즈 아이디 생성-->
+                <h2>얼음배 위의 푸근이</h2>
+                <a href="https://www.youtube.com/watch?v=G2TVHhE93Hc" target="_blank">
+                    <img src="j1.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=WRFWG2vpQXA" target="_blank">
+                    <img src="j2.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=PNYugkwQ9go" target="_blank">
+                    <img src="j3.jpg" alt="Description of image" width="300">
+                </a>       
+                <a href="https://www.youtube.com/watch?v=0qZ5R3uxYaA" target="_blank">
+                    <img src="j4.jpg" alt="Description of image" width="300">
+                </a>          
+                <a href="https://www.youtube.com/watch?v=8NVWGt5azQo" target="_blank">
+                    <img src="j5.jpg" alt="Description of image" width="300">
+                </a>    
+
+                <h2>지니키즈 인기동요</h2>  
+                <a href="https://www.youtube.com/watch?app=desktop&v=zDK6q3heVPs" target="_blank">
+                    <img src="m1.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=i1tsOvb31hg" target="_blank">
+                    <img src="m2.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=NYHT49vpymY" target="_blank">
+                    <img src="m3.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=b8sXQ1ZhXvY" target="_blank">
+                    <img src="m4.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=aYlaceOa94Q" target="_blank">
+                    <img src="m5.jpg" alt="Description of image" width="300">
+                </a>  
+
+                <h2>추천 영상</h2>  
+                <a href="https://www.youtube.com/watch?v=OYUji0g9KcE" target="_blank">
+                    <img src="v1.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=YDNRhUZovGI" target="_blank">
+                    <img src="v2.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=xasrjKzozPM" target="_blank">
+                    <img src="v3.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=8GIah5w2SK8" target="_blank">
+                    <img src="v4.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=_I8CgU_nsSc" target="_blank">
+                    <img src="v5.jpg" alt="Description of image" width="300">
+                </a>  
+
+                <h2></h2>  
+                <a href="https://www.youtube.com/watch?app=desktop&v=fl_yVaRDp2o&t=301s" target="_blank">
+                    <img src="a1.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=OYUji0g9KcE" target="_blank">
+                    <img src="a2.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=uDLquGodNhk" target="_blank">
+                    <img src="a3.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?v=4qHcIyMLpfs" target="_blank">
+                    <img src="a4.jpg" alt="Description of image" width="300">
+                </a>
+                <a href="https://www.youtube.com/watch?app=desktop&v=uVPno_mHpCI" target="_blank">
+                    <img src="a5.jpg" alt="Description of image" width="300">
+                </a>  
+            </div>
+
+        </main>
+    </div>
+        </main>
+    </div>
+
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            document.getElementById("login-screen").style.display = "none"; //로그인 화면 사라지기
+            document.getElementById("Video").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("main-content").style.display = "block"; //메인 화면 이동
+            document.getElementById("site-info").style.display = "block"; //사이트 소개 이동
+        }
+    
+        function showSiteInfo() {
+            document.getElementById("site-info").style.display = "block"; //사이트 소개 이동
+            document.getElementById("game-list").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("customer-center").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("community").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("Video").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+        }
+    
+    </script>
+
+    <img id="image" src="2.gif" alt="이미지" /> <!--이미지 불러오기-->
+    <img id="newGif" src="4.gif" alt="이미지" /> <!--이미지 불러오기-->
+
+    <script>
+        function showGameList() {
+            document.getElementById("game-list").style.display = "block";   //게임 이동
+            document.getElementById("site-info").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("customer-center").style.display = "none";  //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("community").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("Video").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            var image = document.getElementById("image");
+
+             //게임 화면 이동시 애니메이션 출력
+
+            // 이미지를 다시 로드해서 애니메이션이 안끊기게 하기
+            var currentSrc = image.src;
+            image.src = ''; // 현재 이미지를 비우기
+            image.src = currentSrc; /// 다시 처음부터 재생되도록 설정
+
+            // 1번 끝나고 2번 이미지 보이기
+            image.style.display = "block";
+            setTimeout(function() {
+            document.getElementById("newGif").style.display = "block";
+            }, 3001);
+
+            // 3초 후에 1번 이미지 숨기기
+            setTimeout(function() {
+            image.style.display = "none";
+            }, 3000); // 3000ms = 3초
+
+            // 2번 이미지 숨기기
+            setTimeout(function() {
+            document.getElementById("newGif").style.display = "none";
+            }, 4500);
+        }
+        function showCustomerCenter() {
+            document.getElementById("customer-center").style.display = "block"; //고객센터 이동
+            document.getElementById("site-info").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("game-list").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("community").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("Video").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+        }
+
+        function submitInquiry() {
+            document.getElementById("submission-confirmation").style.display = "block"; //제출 버튼 생성
+            setTimeout(() => {
+                document.getElementById("submission-confirmation").style.display = "none"; //제출 버튼 누른후 3초 뒤에 제출 완료 표시 사라지기
+            }, 3000);
+        }
+    </script>
+
+    <main>
+        <div id="community"> <!--커뮤니티 아이디 생성-->
+            <h2>커뮤니티</h2>
+            <input type="text" id="post-id" placeholder="아이디" required> <!--아이디 작성칸 생성-->
+            <input type="text" id="post-title" placeholder="제목" required> <!--제목 작성칸 생성-->
+            <textarea id="post-content" placeholder="내용" required></textarea> <!--내용 적는칸 생성-->
+            <button onclick="addPost()">글 올리기</button> <!--제출 버튼 생성-->
+            <ul id="post-list">
+            <!-- 게시글 목록이 여기에 추가됩니다 -->
+            </ul>
+            <!--게시글 + -->
+        </div>
+    </main>
+
+    <script>
+        function showCommunity() {
+            document.getElementById("community").style.display = "block"; //커뮤니티 화면 출력
+            document.getElementById("customer-center").style.display = "none";  //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("site-info").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("game-list").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("Video").style.display = "none";    //다른 서브 화면 이동시 현재 화면 사라지게 하기
+        }
+
+        function addPost() {
+            //입력 받은 내용 저장
+            const id = document.getElementById("post-id").value.trim();
+            const title = document.getElementById("post-title").value.trim();
+            const content = document.getElementById("post-content").value.trim();
+
+
+            //빈칸 있을 시 "모든 항목을 입력해주세요!" 출력
+            if (id === "" || title === "" || content === "") {
+                alert("모든 항목을 입력해주세요!");
+                return;
+            }
+
+            const postList = document.getElementById("post-list");
+            const newPost = document.createElement("li");
+
+            //입력 받은 내용 출력
+            newPost.innerHTML = `
+                <div class="post-meta">작성자: ${id}</div>
+                <div class="post-title">${title}</div>
+                <div>${content}</div>
+            `;
+
+            postList.prepend(newPost); // 새로운 글을 맨 위에 추가
+
+            // 입력 필드 초기화
+            document.getElementById("post-id").value = "";
+            document.getElementById("post-title").value = "";
+            document.getElementById("post-content").value = "";
+        }
+    </script>
+
+    <script>
+        function showVideo() {
+            document.getElementById("Video").style.display = "block"; //지니키즈 출력
+            document.getElementById("site-info").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("game-list").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("customer-center").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+            document.getElementById("community").style.display = "none"; //다른 서브 화면 이동시 현재 화면 사라지게 하기
+        }
+    </script>
+
+</body>
+</html>
